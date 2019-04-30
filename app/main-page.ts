@@ -8,6 +8,7 @@ import { EventData } from "tns-core-modules/data/observable";
 import { Page } from "tns-core-modules/ui/page";
 import { HelloWorldModel } from "./main-view-model";
 
+let page: Page;
 // Event handler for Page "navigatingTo" event attached in main-page.xml
 export function navigatingTo(args: EventData) {
     /*
@@ -15,7 +16,7 @@ export function navigatingTo(args: EventData) {
     view the API reference of the Page to see what’s available at
     https://docs.nativescript.org/api-reference/classes/_ui_page_.page.html
     */
-    const page = <Page>args.object;
+    page = <Page>args.object;
 
     /*
     A page’s bindingContext is an object that should be used to perform
@@ -28,4 +29,12 @@ export function navigatingTo(args: EventData) {
     https://docs.nativescript.org/core-concepts/data-binding.
     */
     page.bindingContext = new HelloWorldModel();
+}
+
+if (module.hot) {
+    module.hot.accept(["./main-view-model"], () => {
+        console.log("-------> main-view-model accepted");
+ 
+        page.bindingContext = new HelloWorldModel();
+    })
 }
