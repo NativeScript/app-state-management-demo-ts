@@ -5,11 +5,11 @@ export class HelloWorldModel extends Observable {
     private _counter: number;
     private _message: string;
 
-    constructor() {
+    constructor(vm: { _counter: number } = { _counter: 42 }) {
         super();
 
         // Initialize default values.
-        this._counter = 42;
+        this._counter = vm._counter;
         this.updateMessage();
     }
 
@@ -25,7 +25,7 @@ export class HelloWorldModel extends Observable {
     }
 
     onTap() {
-        this._counter+=5;
+        this._counter += 10;
         this.updateMessage();
     }
 
