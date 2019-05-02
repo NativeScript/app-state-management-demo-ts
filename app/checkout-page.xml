@@ -1,0 +1,50 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" 
+    navigatingTo="navigatingTo" 
+    navigatedTo="navigatedTo"
+    loaded="loaded"
+    class="page" xmlns:df="nativescript-ui-dataform">
+    <Page.actionBar>
+        <ActionBar title="Checkout" icon="" class="action-bar">
+        </ActionBar>
+    </Page.actionBar>
+ 
+    <GridLayout class="p-20" rows="auto * auto">
+        <GridLayout columns="* auto * auto *" rows="auto auto" class="status" orientation="horizontal">
+            <Label colSpan="5" class="connector"/>
+
+            <Image col="0" class="{{ step > 1 ? 'status-done' : step === 1 ? 'status-current' : '' }}"/>
+            <Label col="0" row="1" text="Order" class="m-t-5 text-center"/>
+
+            <Image col="2" text="2" class="{{ step > 2 ? 'status-done' : step === 2 ? 'status-current' : '' }}"/>
+            <Label col="2" row="1" text="Delivery" class="m-t-5 text-center"/>
+            
+            <Image col="4" class="{{ step > 3 ? 'status-done' : step === 3 ? 'status-current' : '' }}"/>
+            <Label col="4" row="1" text="Payment" class="m-t-5 text-center"/>
+        </GridLayout>
+
+        <StackLayout class="checkout-step form" visibility="{{ step === 1 ? 'visible' : 'collapse'}}">
+            <Label row="1" text="<!--TODO: review order-->" class="h2 text-center"/>
+        </StackLayout>
+
+        <StackLayout class="checkout-step form"  visibility="{{ step === 2 ? 'visible' : 'collapse'}}">
+            <TextField hint="Street Address" class="input input-border m-t-10" />
+            <TextField hint="Street Address 2 " class="input input-border m-t-10" />
+            <TextField hint="City" class="input input-border m-t-10" />
+            <TextField hint="Country" class="input input-border m-t-10" />
+        </StackLayout>
+
+        <StackLayout class="checkout-step form"  visibility="{{ step === 3 ? 'visible' : 'collapse'}}">
+            <TextField hint="Card no." class="input input-border m-t-10" />
+            <TextField hint="Expiry" class="input input-border m-t-10" />
+            <TextField hint="CVC Code" class="input input-border m-t-10" />
+        </StackLayout>
+
+        <GridLayout rows="*" columns="*" class="checkout-step"  visibility="{{ step > 3 ? 'visible' : 'collapse'}}">
+            <Label text="DONE" class="h1 text-center"/>
+        </GridLayout>
+
+        <Button row="2" text="<" tap="{{ onPrevius }}" class="fab" horizontalAlignment="left"/>
+        <Button row="2" text=">" tap="{{ onNext }}" class="fab" horizontalAlignment="right"/>
+        
+    </GridLayout>
+</Page>

@@ -1,0 +1,44 @@
+﻿.fab {
+    font-size: 24;
+    background: lightblue;
+    width: 60;
+    height: 60;
+    border-radius: 30;
+    margin: 5;
+}
+
+.checkout-step {
+    row: 1;
+    margin: 40 0 0 0;
+}
+
+.status { 
+    horizontal-align: center;
+}
+
+.status > Image {
+    width: 40;
+    height: 40;
+    border-radius: 20;
+    background-color: lightgray;
+}
+
+.status > .connector {
+    margin: 0 40;
+    height: 10;
+    min-width: 300;
+    background-color: lightgray;
+}
+
+.status > .status-current {
+    background-color: orange;
+    border-color: lightgray;
+    border-width: 6;
+}
+
+.status > .status-done {
+    background-color: lightgreen;
+    border-color: lightgray;
+    border-width: 6;
+
+}
