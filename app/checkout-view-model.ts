@@ -68,3 +68,21 @@ export class CheckoutModel extends Observable {
         this.step--;
     }
 }
+
+let instance: CheckoutModel = new CheckoutModel();
+if (module.hot.data && module.hot.data.vm) {
+    console.log("[checkout-vm.ts] vm loaded from cache");
+    Object.assign(instance, module.hot.data.vm);
+}
+
+export function getCheckoutVM(): CheckoutModel {
+    return instance;
+}
+
+if (module.hot) {
+    // Handle changes in checkout-page.ts (this file)
+    module.hot.dispose((data) => {
+        console.log("[checkout-vm.ts] disposed");
+        data.vm = instance;
+    });
+}
