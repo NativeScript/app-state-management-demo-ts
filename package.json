@@ -2,10 +2,10 @@
   "nativescript": {
     "id": "org.nativescript.helloworldts",
     "tns-android": {
-      "version": "5.3.1"
+      "version": "6.0.0-2019-06-11-172137-01"
     },
     "tns-ios": {
-      "version": "5.3.1"
+      "version": "6.0.0-2019-06-10-154118-03"
     }
   },
   "main": "app.js",
@@ -13,14 +13,13 @@
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "dependencies": {
+    "@types/webpack-env": "^1.13.9",
     "nativescript-theme-core": "~1.0.4",
-    "tns-core-modules": "^5.4.0-next-2019-04-23-174745-01"
+    "tns-core-modules": "6.0.0-next-2019-06-20-155941-01"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.13.9",
-    "fork-ts-checker-webpack-plugin": "^1.2.0",
-    "nativescript-dev-typescript": "~0.9.0",
-    "nativescript-dev-webpack": "next"
+    "nativescript-dev-webpack": "next",
+    "typescript": "3.4.1"
   },
   "gitHead": "803cec054c44c99eaa59cdc267993e6346f6cb3a",
   "readme": "NativeScript Application"
