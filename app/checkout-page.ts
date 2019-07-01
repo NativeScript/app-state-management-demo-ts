@@ -8,14 +8,16 @@ import { EventData } from "tns-core-modules/data/observable";
 import { Page } from "tns-core-modules/ui/page";
 import { CheckoutModel } from "./checkout-view-model";
 
-let page: Page;
+let vm: CheckoutModel;
+
 // Event handler for Page "navigatingTo" event attached in main-page.xml
 export function navigatingTo(args: EventData) {
-    console.log("[CHECKOUT-PAGE]: navigatingTo");
-    let cache = page ? page.bindingContext : undefined;
-    page = <Page>args.object;
-    page.bindingContext = copyContext(cache) || new CheckoutModel();
+    console.log(`[CHECKOUT-PAGE]: navigatingTo. cached vm: ${vm}`);
+    let page = <Page>args.object;
+    vm = vm || new CheckoutModel();
+    page.bindingContext = vm;
 }
+
 export function navigatedTo(args: EventData) {
     console.log("[CHECKOUT-PAGE]: navigatedTo");
 }
@@ -24,12 +26,12 @@ export function loaded(args: EventData) {
     console.log("[CHECKOUT-PAGE]: loaded");
 }
 
-if (module.hot) {
-    module.hot.accept(["./checkout-view-model"], () => {
-        console.log("-----> checkout-view-model accepted");
-        page.bindingContext = copyContext(page.bindingContext);
-    })
-}
+// if (module.hot) {
+//     module.hot.accept(["./checkout-view-model"], () => {
+//         console.log("-----> checkout-view-model accepted");
+//         page.bindingContext = copyContext(page.bindingContext);
+//     })
+// }
 
 function copyContext(context: CheckoutModel): CheckoutModel | undefined {
     // return undefined;
