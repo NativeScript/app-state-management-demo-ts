@@ -1,5 +1,37 @@
 import { Observable } from "tns-core-modules/data/observable";
 
+export function DataProperty() {
+    return (obj: Observable, key: string) => {
+        console.log(`DataProperty. key: ${key}`);
+
+        if (module.hot) {
+            module["dataProps"] = module["dataProps"] || [];
+            module["dataProps"].push(key);
+        }
+
+        let storedValue = obj[key];
+        Object.defineProperty(obj, key, {
+            get: function () {
+                return storedValue;
+            },
+            set: function (value) {
+                if (storedValue === value) {
+                    return;
+                }
+                storedValue = value;
+                this.notify({
+                    eventName: Observable.propertyChangeEvent,
+                    propertyName: key,
+                    object: this,
+                    value,
+                });
+            },
+            enumerable: true,
+            configurable: true,
+        });
+    };
+}
+
 interface Product {
     name: string;
     price: number;
@@ -14,7 +46,7 @@ interface Order {
 }
 
 const products: Product[] = [
-    { name: "Product 1", price: 10 },
+    { name: "Product 1 ", price: 10 },
     { name: "Product 2", price: 20 },
     { name: "Product 3", price: 30 },
     { name: "Product 4", price: 40 },
@@ -30,35 +62,10 @@ const order: Order = {
 }
 
 export class CheckoutModel extends Observable {
-    private _step: number = 1;
-    private _streetAddress: string;
+    @DataProperty()
+    public step: number = 1;
 
-    get streetAddress(): string {
-        return this._streetAddress;
-    }
-
-    set streetAddress(value: string) {
-        if (this._streetAddress !== value) {
-            this._streetAddress = value;
-            this.notifyPropertyChange("streetAddress", value);
-            console.log(`[vm] streetAddress setter: ${value}`)
-        }
-    }
-
-    get step(): number {
-        return this._step;
-    }
-
-    set step(value: number) {
-        if (this._step !== value) {
-            this._step = value;
-            this.notifyPropertyChange("step", value);
-        }
-    }
-
-    constructor() {
-        super();
-    }
+    public streetAddress: string;
 
     onNext() {
         this.step++;
@@ -69,20 +76,26 @@ export class CheckoutModel extends Observable {
     }
 }
 
+
+if (module.hot) {
+    // Handle changes in checkout-page.ts (this file) 
+    module.hot.dispose((data) => {
+        console.log("[checkout-vm.ts] disposed");
+        data.vm = instance;
+        data.dataProps = module["dataProps"];
+    });
+}
+
 let instance: CheckoutModel = new CheckoutModel();
 if (module.hot.data && module.hot.data.vm) {
     console.log("[checkout-vm.ts] vm loaded from cache");
-    Object.assign(instance, module.hot.data.vm);
+    module.hot.data.dataProps.forEach(prop => {
+        if (module["dataProps"].includes(prop)) {
+            instance[prop] = module.hot.data.vm[prop]
+        }
+    });
 }
 
 export function getCheckoutVM(): CheckoutModel {
     return instance;
-}
-
-if (module.hot) {
-    // Handle changes in checkout-page.ts (this file)
-    module.hot.dispose((data) => {
-        console.log("[checkout-vm.ts] disposed");
-        data.vm = instance;
-    });
 }
