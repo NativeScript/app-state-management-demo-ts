@@ -9,23 +9,32 @@ import { Page } from "tns-core-modules/ui/page";
 import { CheckoutModel } from "./checkout-view-model";
 
 let vm: CheckoutModel;
+let page: Page;
 
 if (module.hot) {
+
+    // Handle changes in checkout-page.ts (this file)
     module.hot.dispose((data) => {
         console.log("[checkout-page.ts] disposed");
         data.vm = vm;
     });
-
-    if(module.hot.data && module.hot.data.vm) {
+    if (module.hot.data && module.hot.data.vm) {
         console.log("[checkout-page.ts] vm loaded from cache");
         vm = module.hot.data.vm;
     }
+
+    // Handle changes in checkout-view-model.ts (vm module)
+    module.hot.accept(["./checkout-view-model"], () => {
+        console.log("-----> checkout-view-model accepted");
+        vm = Object.assign(new CheckoutModel(), vm);
+        page.bindingContext = vm;
+    })
 }
 
 // Event handler for Page "navigatingTo" event attached in main-page.xml
 export function navigatingTo(args: EventData) {
     console.log(`[CHECKOUT-PAGE]: navigatingTo. cached vm: ${vm}`);
-    let page = <Page>args.object;
+    page = <Page>args.object;
     vm = vm || new CheckoutModel();
     page.bindingContext = vm;
 }
@@ -37,27 +46,3 @@ export function navigatedTo(args: EventData) {
 export function loaded(args: EventData) {
     console.log("[CHECKOUT-PAGE]: loaded");
 }
-
-// if (module.hot) {
-//     module.hot.accept(["./checkout-view-model"], () => {
-//         console.log("-----> checkout-view-model accepted");
-//         page.bindingContext = copyContext(page.bindingContext);
-//     })
-// }
-
-// function copyContext(context: CheckoutModel): CheckoutModel | undefined {
-//     // return undefined;
-
-//     if (!context) return undefined;
-
-//     const newCtx = new CheckoutModel();
-
-//     for (const key in context) {
-//         if (context.hasOwnProperty(key)) {
-//             console.log("coping property: " + key)
-//             newCtx[key] = context[key];
-//         }
-//     }
-
-//     return newCtx;
-// }

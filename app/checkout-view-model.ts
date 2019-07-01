@@ -41,6 +41,7 @@ export class CheckoutModel extends Observable {
         if (this._streetAddress !== value) {
             this._streetAddress = value;
             this.notifyPropertyChange("streetAddress", value);
+            console.log(`[vm] streetAddress setter: ${value}`)
         }
     }
 
@@ -57,14 +58,13 @@ export class CheckoutModel extends Observable {
 
     constructor() {
         super();
-        this.set("order", order)
     }
 
     onNext() {
         this.step++;
     }
 
-    onPrevius() {
+    onPrevious() {
         this.step--;
     }
 }

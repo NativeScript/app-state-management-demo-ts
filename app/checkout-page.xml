@@ -43,7 +43,7 @@
             <Label text="DONE" class="h1 text-center"/>
         </GridLayout>
 
-        <Button row="2" text="<" tap="{{ onPrevius }}" class="fab" horizontalAlignment="left"/>
+        <Button row="2" text="<" tap="{{ onPrevious }}" class="fab" horizontalAlignment="left"/>
         <Button row="2" text=">" tap="{{ onNext }}" class="fab" horizontalAlignment="right"/>
         
     </GridLayout>
