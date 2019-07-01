@@ -27,7 +27,7 @@
         </StackLayout>
 
         <StackLayout class="checkout-step form"  visibility="{{ step === 2 ? 'visible' : 'collapse'}}">
-            <TextField hint="Street Address" class="input input-border m-t-10" />
+            <TextField hint="Street Address" text="{{ streetAddress }}" class="input input-border m-t-10" />
             <TextField hint="Street Address 2 " class="input input-border m-t-10" />
             <TextField hint="City" class="input input-border m-t-10" />
             <TextField hint="Country" class="input input-border m-t-10" />

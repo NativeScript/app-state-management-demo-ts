@@ -31,6 +31,18 @@ const order: Order = {
 
 export class CheckoutModel extends Observable {
     private _step: number = 1;
+    private _streetAddress: string;
+
+    get streetAddress(): string {
+        return this._streetAddress;
+    }
+
+    set streetAddress(value: string) {
+        if (this._streetAddress !== value) {
+            this._streetAddress = value;
+            this.notifyPropertyChange("streetAddress", value);
+        }
+    }
 
     get step(): number {
         return this._step;
