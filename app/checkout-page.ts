@@ -10,6 +10,18 @@ import { CheckoutModel } from "./checkout-view-model";
 
 let vm: CheckoutModel;
 
+if (module.hot) {
+    module.hot.dispose((data) => {
+        console.log("[checkout-page.ts] disposed");
+        data.vm = vm;
+    });
+
+    if(module.hot.data && module.hot.data.vm) {
+        console.log("[checkout-page.ts] vm loaded from cache");
+        vm = module.hot.data.vm;
+    }
+}
+
 // Event handler for Page "navigatingTo" event attached in main-page.xml
 export function navigatingTo(args: EventData) {
     console.log(`[CHECKOUT-PAGE]: navigatingTo. cached vm: ${vm}`);
@@ -33,19 +45,19 @@ export function loaded(args: EventData) {
 //     })
 // }
 
-function copyContext(context: CheckoutModel): CheckoutModel | undefined {
-    // return undefined;
-    
-    if (!context) return undefined;
+// function copyContext(context: CheckoutModel): CheckoutModel | undefined {
+//     // return undefined;
 
-    const newCtx = new CheckoutModel();
+//     if (!context) return undefined;
 
-    for (const key in context) {
-        if (context.hasOwnProperty(key)) {
-            console.log("coping property: " + key)
-            newCtx[key] = context[key];
-        }
-    }
+//     const newCtx = new CheckoutModel();
 
-    return newCtx;
-}
+//     for (const key in context) {
+//         if (context.hasOwnProperty(key)) {
+//             console.log("coping property: " + key)
+//             newCtx[key] = context[key];
+//         }
+//     }
+
+//     return newCtx;
+// }
